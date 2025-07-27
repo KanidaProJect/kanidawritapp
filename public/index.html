@@ -39,21 +39,6 @@
       border-radius: 10px;
       max-width: 80%;
     }
-    <body onload="initUI()">
-  <header>
-    <h1>Kanida Plot Studio</h1>
-  </header>
-
-  <div class="container">
-    <button id="createBtn">สร้างโปรเจกต์ใหม่</button>
-    <button id="loadBtn">เปิดโปรเจกต์เดิม</button>
-    <button id="deleteBtn">ลบโปรเจกต์</button>
-
-    <ul id="projectList"></ul>
-  </div>
-
-  <script type="module" src="./js/uiBinder.js"></script>
-</body>
     .chat-entry.user {
       background: #d8f3dc;
       align-self: flex-end;
@@ -89,6 +74,7 @@
     }
     .project-buttons {
       display: flex;
+      flex-wrap: wrap;
       gap: 0.75rem;
     }
     footer {
@@ -97,6 +83,20 @@
       color: #888;
       padding-bottom: 1rem;
     }
+    .form-box {
+      background: #fff;
+      border: 2px solid #aaa;
+      padding: 1rem;
+      border-radius: 10px;
+    }
+    textarea {
+      width: 100%;
+      min-height: 60px;
+      margin-bottom: 1rem;
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
   </style>
 </head>
 <body>
@@ -104,15 +104,22 @@
     <h1>Kanida Plot Studio</h1>
     <p>ระบบช่วยจัดโครงพล็อตแบบ 6 เส้น – ไม่มโน ไม่เร่ง</p>
   </header>
+
   <div class="container">
     <div class="project-buttons">
       <button onclick="newProject()">➕ สร้างโปรเจกต์ใหม่</button>
       <button onclick="loadProject()">📂 เปิดโปรเจกต์เดิม</button>
       <button onclick="deleteProject()">🗑️ ลบโปรเจกต์</button>
+      <button onclick="setupStory()">📚 สร้างตอน/ระยะเวลา</button>
+      <button onclick="editEpisode()">✏️ แก้ไขตอน</button>
+    </div>
+
+    <div id="episodeForm" class="form-box">
+      <!-- แบบฟอร์มตอนจะปรากฏที่นี่ -->
     </div>
 
     <div class="chat-box" id="chatBox">
-      <div class="chat-entry system">👋 ยินดีต้อนรับ! กรุณาเริ่มเล่าช่วงต้นเรื่องของตัวเอก (10%) ได้เลยครับ</div>
+      <div class="chat-entry system">👋 ยินดีต้อนรับ! กรุณาเริ่มเล่าช่วงต้นเรื่องของตัวเอกได้เลยครับ</div>
     </div>
 
     <div class="input-row">
@@ -120,7 +127,29 @@
       <button onclick="sendMessage()">ส่ง</button>
     </div>
   </div>
+
   <footer>© 2025 Kanida Studio – ระบบไม่คิดแทนผู้เขียน</footer>
+
+  <script type="module">
+    import { askStorySetup } from "../js/storySetup.js";
+    import { renderEpisodeForm } from "../js/episodeMatrix.js";
+    import { saveProject } from "../js/memoryStore.js";
+
+    window.setupStory = function () {
+      const name = prompt("ชื่อโปรเจกต์:");
+      askStorySetup((data) => {
+        data.projectName = name;
+        saveProject(name, data);
+        alert("สร้างโครงตอนสำเร็จแล้ว!");
+      });
+    };
+
+    window.editEpisode = function () {
+      const name = prompt("ชื่อโปรเจกต์:");
+      const index = Number(prompt("ตอนที่ต้องการแก้ (เริ่มจาก 0):"));
+      renderEpisodeForm(name, index);
+    };
+  </script>
 
   <script>
     const chatBox = document.getElementById("chatBox");
@@ -137,7 +166,7 @@
 
       const reply = document.createElement("div");
       reply.className = "chat-entry system";
-      reply.textContent = `📌 ระบบรับข้อความเรียบร้อย: "${text}"`; // จำลองตอบกลับ
+      reply.textContent = `📌 ระบบรับข้อความเรียบร้อย: "${text}"`;
       chatBox.appendChild(reply);
 
       input.value = "";
@@ -149,11 +178,11 @@
     }
 
     function loadProject() {
-      alert("[Mockup] เปิดโปรเจกต์ที่บันทึกไว้");
+      alert("[Mockup] เปิดโปรเจกต์");
     }
 
     function deleteProject() {
-      alert("[Mockup] ลบโปรเจกต์ถาวร");
+      alert("[Mockup] ลบโปรเจกต์");
     }
   </script>
 </body>
