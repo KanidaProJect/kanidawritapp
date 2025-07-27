@@ -1,0 +1,9 @@
+{
+  "name": "Kanida Plot Studio",
+  "short_name": "Kanida",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fcfcfc",
+  "theme_color": "#354f52",
+  "icons": []
+}
