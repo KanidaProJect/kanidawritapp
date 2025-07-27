@@ -4,9 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kanida Plot Studio – ช่วยวางพล็อต</title>
+  <link rel="manifest" href="./manifest.json" />
   <style>
     body {
-      font-family: 'Prompt', serif;
+      font-family: 'Prompt', sans-serif;
       background: #fcfcfc;
       margin: 0;
       padding: 0;
@@ -83,20 +84,6 @@
       color: #888;
       padding-bottom: 1rem;
     }
-    .form-box {
-      background: #fff;
-      border: 2px solid #aaa;
-      padding: 1rem;
-      border-radius: 10px;
-    }
-    textarea {
-      width: 100%;
-      min-height: 60px;
-      margin-bottom: 1rem;
-      padding: 0.75rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
   </style>
 </head>
 <body>
@@ -114,8 +101,6 @@
       <button onclick="editEpisode()">✏️ แก้ไขตอน</button>
     </div>
 
-    <div id="episodeForm" class="form-box"></div>
-
     <div class="chat-box" id="chatBox">
       <div class="chat-entry system">👋 ยินดีต้อนรับ! กรุณาเริ่มเล่าช่วงต้นเรื่องของตัวเอกได้เลยครับ</div>
     </div>
@@ -129,72 +114,21 @@
   <footer>© 2025 Kanida Studio – ระบบไม่คิดแทนผู้เขียน</footer>
 
   <script type="module">
-  import { askStorySetup } from "../js/storySetup.js";
-  import { renderEpisodeForm } from "../js/episodeMatrix.js";
-  import { saveProject as pmSave, loadProject, deleteProject, projectExists } from "../js/projectManager.js";
+    import { newProject, loadProject, deleteProject } from './js/projectManager.js';
+    import { setupStory } from './js/storySetup.js';
+    import { editEpisode } from './js/episodeMatrix.js';
 
-    window.setupStory = function () {
-      const name = prompt("ชื่อโปรเจกต์:");
-      if (!name) return;
-      askStorySetup((data) => {
-        data.projectName = name;
-        pmSave(name, data);
-        alert("✅ สร้างโครงตอนสำเร็จแล้ว!");
-      });
-    };
-
-    window.editEpisode = function () {
-      const name = prompt("ชื่อโปรเจกต์:");
-      const index = Number(prompt("ตอนที่ต้องการแก้ (เริ่มจาก 0):"));
-      renderEpisodeForm(name, index);
-    };
-
-    window.newProject = function () {
-      const name = prompt("ชื่อโปรเจกต์ใหม่:");
-      if (!name) return;
-      if (projectExists(name)) {
-        alert("❌ มีโปรเจกต์ชื่อนี้แล้ว");
-        return;
-      }
-      const data = {
-        projectName: name,
-        meta: { totalEpisodes: 0, storyDuration: "" },
-        episodes: []
-      };
-      pmSave(name, data);
-      alert("✅ สร้างโปรเจกต์ใหม่เรียบร้อย");
-    };
-
-    window.loadProject = function () {
-      const name = prompt("ชื่อโปรเจกต์ที่ต้องการเปิด:");
-      const project = loadProject(name);
-      if (!project) {
-        alert("❌ ไม่พบโปรเจกต์นี้");
-        return;
-      }
-      setCurrentProject(name);
-      alert(📂 โหลดโปรเจกต์ "${name}" สำเร็จแล้ว!);
-      console.log(project);
-    };
-
-    window.deleteProject = function () {
-      const name = prompt("ลบโปรเจกต์ชื่ออะไร?");
-      if (!projectExists(name)) {
-        alert("❌ ไม่พบโปรเจกต์นี้");
-        return;
-      }
-      const ok = confirm(ลบ "${name}" จริงหรือไม่?);
-      if (ok) {
-        deleteProject(name);
-        alert("🗑️ ลบโปรเจกต์เรียบร้อย");
-      }
-    };
+    window.newProject = newProject;
+    window.loadProject = loadProject;
+    window.deleteProject = deleteProject;
+    window.setupStory = setupStory;
+    window.editEpisode = editEpisode;
   </script>
 
   <script>
     const chatBox = document.getElementById("chatBox");
 
-    function sendMessage() {
+    window.sendMessage = function () {
       const input = document.getElementById("userInput");
       const text = input.value.trim();
       if (!text) return;
@@ -206,22 +140,12 @@
 
       const reply = document.createElement("div");
       reply.className = "chat-entry system";
-      reply.textContent = 📌 ระบบรับข้อความเรียบร้อย: "${text}";
+      reply.textContent = `📌 ระบบรับข้อความเรียบร้อย: "${text}"`;
       chatBox.appendChild(reply);
 
       input.value = "";
       chatBox.scrollTop = chatBox.scrollHeight;
     }
- <script type="module">
-  import { createProject, loadProject, deleteProject } from './js/projectManager.js';
-  import { setupStory } from './js/storySetup.js';
-  import { editEpisode } from './js/episodeMatrix.js';
-
-  window.newProject = createProject;
-  window.loadProject = loadProject;
-  window.deleteProject = deleteProject;
-  window.setupStory = setupStory;
-  window.editEpisode = editEpisode;
-</script>
+  </script>
 </body>
 </html>
