@@ -1,6 +1,6 @@
 // js/episodeMatrix.js
 
-import { loadProject, saveProject } from "./memoryStore.js";
+import { loadProject, saveProject } from "./projectManager.js";
 
 // แสดงฟอร์มตอนที่เลือก
 export function renderEpisodeForm(projectName, episodeIndex) {
