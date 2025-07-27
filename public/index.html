@@ -113,22 +113,21 @@
 
   <footer>© 2025 Kanida Studio – ระบบไม่คิดแทนผู้เขียน</footer>
 
-  <script type="module">
-   import {
+ <script type="module">
+  import {
     newProject,
     loadProject,
     deleteProject,
-} from '/js/projectManagerjs';
+  } from '/js/jsprojectManager.js';
 
-import { setupStory } from '/js/storySetup.js';
-import { editEpisode } from '/js/episodeMatrix.js';
+  import { setupStory } from '/js/jsstorySetup.js';
+  import { editEpisode } from '/js/jsepisodeMatrix.js';
 
-document.getElementById("newProjectBtn").addEventListener("click", newProject);
-document.getElementById("loadProjectBtn").addEventListener("click", loadProject);
-document.getElementById("deleteProjectBtn").addEventListener("click", deleteProject);
-document.getElementById("setupStoryBtn").addEventListener("click", setupStory);
-document.getElementById("editEpisodeBtn").addEventListener("click", editEpisode);
-
+  document.getElementById("newProjectBtn").addEventListener("click", newProject);
+  document.getElementById("loadProjectBtn").addEventListener("click", loadProject);
+  document.getElementById("deleteProjectBtn").addEventListener("click", deleteProject);
+  document.getElementById("setupStoryBtn").addEventListener("click", setupStory);
+  document.getElementById("editEpisodeBtn").addEventListener("click", editEpisode);
   </script>
 
   <script>
