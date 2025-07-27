@@ -30,3 +30,4 @@ export function setupStory() {
 
   alert(`✅ สร้างโปรเจกต์ "${name}" สำเร็จแล้ว\n📌 ความยาวเรื่อง: ${duration}\n📄 จำนวนตอน: ${totalEpisodes}`);
 }
+ window.setupStory = setupStory;
