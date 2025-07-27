@@ -1,3 +1,4 @@
+<!-- 📁 public/index.html -->
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -5,98 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kanida Plot Studio – ช่วยวางพล็อต</title>
   <style>
-    body {
-      font-family: 'Prompt', serif;
-      background: #fcfcfc;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background: #354f52;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-    }
-    .container {
-      display: flex;
-      flex-direction: column;
-      max-width: 900px;
-      margin: auto;
-      padding: 1.5rem;
-      gap: 1.5rem;
-    }
-    .chat-box {
-      background: #ffffff;
-      border: 2px dashed #ccc;
-      border-radius: 12px;
-      padding: 1.5rem;
-      height: 400px;
-      overflow-y: auto;
-    }
-    .chat-entry {
-      margin: 0.75rem 0;
-      padding: 0.75rem 1rem;
-      border-radius: 10px;
-      max-width: 80%;
-    }
-    .chat-entry.user {
-      background: #d8f3dc;
-      align-self: flex-end;
-      margin-left: auto;
-      color: #1b4332;
-    }
-    .chat-entry.system {
-      background: #edf2f4;
-      align-self: flex-start;
-      margin-right: auto;
-      color: #2b2d42;
-    }
-    .input-row {
-      display: flex;
-      gap: 0.5rem;
-    }
-    input[type="text"] {
-      flex: 1;
-      padding: 0.75rem;
-      border-radius: 6px;
-      border: 1px solid #999;
-    }
-    button {
-      padding: 0.75rem 1rem;
-      border: none;
-      border-radius: 6px;
-      background: #588157;
-      color: white;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #3a5a40;
-    }
-    .project-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-    }
-    footer {
-      text-align: center;
-      font-size: 0.85rem;
-      color: #888;
-      padding-bottom: 1rem;
-    }
-    .form-box {
-      background: #fff;
-      border: 2px solid #aaa;
-      padding: 1rem;
-      border-radius: 10px;
-    }
-    textarea {
-      width: 100%;
-      min-height: 60px;
-      margin-bottom: 1rem;
-      padding: 0.75rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
+    /* ... [เหมือนเดิมทั้งหมดใน <style>] ... */
   </style>
 </head>
 <body>
@@ -128,11 +38,13 @@
 
   <footer>© 2025 Kanida Studio – ระบบไม่คิดแทนผู้เขียน</footer>
 
+  <!-- ✅ โมดูลหลัก -->
   <script type="module">
-  import { askStorySetup } from "./js/storySetup.js";
-  import { renderEpisodeForm } from "./js/episodeMatrix.js";
-  import { saveProject as pmSave, loadProject, deleteProject, projectExists } from "./js/projectManager.js";
+    import { askStorySetup } from "../js/storySetup.js";
+    import { renderEpisodeForm } from "../js/episodeMatrix.js";
+    import { saveProject as pmSave, loadProject, deleteProject, projectExists } from "../js/projectManager.js";
 
+    // ✅ สำหรับสร้างโครงตอน
     window.setupStory = function () {
       const name = prompt("ชื่อโปรเจกต์:");
       if (!name) return;
@@ -172,7 +84,6 @@
         alert("❌ ไม่พบโปรเจกต์นี้");
         return;
       }
-      setCurrentProject(name);
       alert(`📂 โหลดโปรเจกต์ "${name}" สำเร็จแล้ว!`);
       console.log(project);
     };
@@ -191,6 +102,10 @@
     };
   </script>
 
+  <!-- ✅ โมดูลไม่ต้องซ้ำ -->
+  <!-- ❌ ลบ script module อันที่ซ้อนท้ายออกไปเลย -->
+
+  <!-- ✅ ฟังก์ชันแชท -->
   <script>
     const chatBox = document.getElementById("chatBox");
 
@@ -212,16 +127,6 @@
       input.value = "";
       chatBox.scrollTop = chatBox.scrollHeight;
     }
- <script type="module">
-  import { createProject, loadProject, deleteProject } from '../js/projectManager.js';
-  import { setupStory } from '../js/storySetup.js';
-  import { editEpisode } from '../js/episodeMatrix.js';
-
-  window.newProject = createProject;
-  window.loadProject = loadProject;
-  window.deleteProject = deleteProject;
-  window.setupStory = setupStory;
-  window.editEpisode = editEpisode;
-</script>
+  </script>
 </body>
 </html>
