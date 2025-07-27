@@ -114,9 +114,7 @@
       <button onclick="editEpisode()">✏️ แก้ไขตอน</button>
     </div>
 
-    <div id="episodeForm" class="form-box">
-      <!-- แบบฟอร์มตอนจะปรากฏที่นี่ -->
-    </div>
+    <div id="episodeForm" class="form-box"></div>
 
     <div class="chat-box" id="chatBox">
       <div class="chat-entry system">👋 ยินดีต้อนรับ! กรุณาเริ่มเล่าช่วงต้นเรื่องของตัวเอกได้เลยครับ</div>
@@ -133,14 +131,15 @@
   <script type="module">
     import { askStorySetup } from "../js/storySetup.js";
     import { renderEpisodeForm } from "../js/episodeMatrix.js";
-    import { saveProject } from "../js/memoryStore.js";
+    import { saveProject as pmSave, loadProject, deleteProject, projectExists } from "../js/projectManager.js";
 
     window.setupStory = function () {
       const name = prompt("ชื่อโปรเจกต์:");
+      if (!name) return;
       askStorySetup((data) => {
         data.projectName = name;
-        saveProject(name, data);
-        alert("สร้างโครงตอนสำเร็จแล้ว!");
+        pmSave(name, data);
+        alert("✅ สร้างโครงตอนสำเร็จแล้ว!");
       });
     };
 
@@ -148,6 +147,46 @@
       const name = prompt("ชื่อโปรเจกต์:");
       const index = Number(prompt("ตอนที่ต้องการแก้ (เริ่มจาก 0):"));
       renderEpisodeForm(name, index);
+    };
+
+    window.newProject = function () {
+      const name = prompt("ชื่อโปรเจกต์ใหม่:");
+      if (!name) return;
+      if (projectExists(name)) {
+        alert("❌ มีโปรเจกต์ชื่อนี้แล้ว");
+        return;
+      }
+      const data = {
+        projectName: name,
+        meta: { totalEpisodes: 0, storyDuration: "" },
+        episodes: []
+      };
+      pmSave(name, data);
+      alert("✅ สร้างโปรเจกต์ใหม่เรียบร้อย");
+    };
+
+    window.loadProject = function () {
+      const name = prompt("ชื่อโปรเจกต์ที่ต้องการเปิด:");
+      const project = loadProject(name);
+      if (!project) {
+        alert("❌ ไม่พบโปรเจกต์นี้");
+        return;
+      }
+      alert(`📂 โหลดโปรเจกต์ "${name}" สำเร็จแล้ว!`);
+      console.log(project);
+    };
+
+    window.deleteProject = function () {
+      const name = prompt("ลบโปรเจกต์ชื่ออะไร?");
+      if (!projectExists(name)) {
+        alert("❌ ไม่พบโปรเจกต์นี้");
+        return;
+      }
+      const ok = confirm(`ลบ "${name}" จริงหรือไม่?`);
+      if (ok) {
+        deleteProject(name);
+        alert("🗑️ ลบโปรเจกต์เรียบร้อย");
+      }
     };
   </script>
 
@@ -171,18 +210,6 @@
 
       input.value = "";
       chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
-    function newProject() {
-      alert("[Mockup] เริ่มโปรเจกต์ใหม่");
-    }
-
-    function loadProject() {
-      alert("[Mockup] เปิดโปรเจกต์");
-    }
-
-    function deleteProject() {
-      alert("[Mockup] ลบโปรเจกต์");
     }
   </script>
 </body>
