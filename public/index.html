@@ -39,6 +39,21 @@
       border-radius: 10px;
       max-width: 80%;
     }
+    <body onload="initUI()">
+  <header>
+    <h1>Kanida Plot Studio</h1>
+  </header>
+
+  <div class="container">
+    <button id="createBtn">สร้างโปรเจกต์ใหม่</button>
+    <button id="loadBtn">เปิดโปรเจกต์เดิม</button>
+    <button id="deleteBtn">ลบโปรเจกต์</button>
+
+    <ul id="projectList"></ul>
+  </div>
+
+  <script type="module" src="./js/uiBinder.js"></script>
+</body>
     .chat-entry.user {
       background: #d8f3dc;
       align-self: flex-end;
