@@ -1,4 +1,4 @@
-# kanidawritapp – Local PWA Writing Tool
+# Kanida Plot Studio – Local PWA Writing Tool
 
 ## 🎯 Concept
 
@@ -14,7 +14,7 @@
 
 ### 🔹 Deploy แบบ Static (เช่น Render)
 
-1. สร้าง Static Site บน [Render.com](https://render.com/)
+1. สร้าง Static Site บน [Render](https://render.com/)
 2. root directory = `/public`
 3. build command = _none_
 4. publish directory = `/public`
@@ -29,3 +29,6 @@
 
 ## 🗂️ โครงสร้างไฟล์
 
+**🛠 Dev by Kanida Studio**  
+**📦 Project: `Kanida Plot Studio` – version v1.2**  
+**📅 Last Updated: July 2025**
