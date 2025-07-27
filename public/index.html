@@ -212,6 +212,16 @@
       input.value = "";
       chatBox.scrollTop = chatBox.scrollHeight;
     }
-  </script>
+ <script type="module">
+  import { createProject, loadProject, deleteProject } from '../js/projectManager.js';
+  import { setupStory } from '../js/storySetup.js';
+  import { editEpisode } from '../js/episodeMatrix.js';
+
+  window.newProject = createProject;
+  window.loadProject = loadProject;
+  window.deleteProject = deleteProject;
+  window.setupStory = setupStory;
+  window.editEpisode = editEpisode;
+</script>
 </body>
 </html>
