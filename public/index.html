@@ -94,11 +94,11 @@
   <div id="episodeFormContainer" style="margin: 2rem 0;"></div>
   <div class="container">
     <div class="project-buttons">
-      <button onclick="newProject()">➕ สร้างโปรเจกต์ใหม่</button>
-      <button onclick="loadProject()">📂 เปิดโปรเจกต์เดิม</button>
-      <button onclick="deleteProject()">🗑️ ลบโปรเจกต์</button>
-      <button onclick="setupStory()">📚 สร้างตอน/ระยะเวลา</button>
-      <button onclick="editEpisode()">✏️ แก้ไขตอน</button>
+      <button id="newProject()">➕ สร้างโปรเจกต์ใหม่</button>
+      <button id="loadProject()">📂 เปิดโปรเจกต์เดิม</button>
+      <button id="deleteProject()">🗑️ ลบโปรเจกต์</button>
+      <button id="setupStory()">📚 สร้างตอน/ระยะเวลา</button>
+      <button id="editEpisode()">✏️ แก้ไขตอน</button>
     </div>
 
     <div class="chat-box" id="chatBox">
@@ -114,15 +114,21 @@
   <footer>© 2025 Kanida Studio – ระบบไม่คิดแทนผู้เขียน</footer>
 
   <script type="module">
-    import { newProject, loadProject, deleteProject } from './js/projectManager.js';
-    import { setupStory } from './js/storySetup.js';
-    import { editEpisode } from './js/episodeMatrix.js';
+   import {
+    newProject,
+    loadProject,
+    deleteProject,
+} from './js/projectManager.js';
 
-    window.newProject = newProject;
-    window.loadProject = loadProject;
-    window.deleteProject = deleteProject;
-    window.setupStory = setupStory;
-    window.editEpisode = editEpisode;
+import { setupStory } from './js/storySetup.js';
+import { editEpisode } from './js/episodeMatrix.js';
+
+document.getElementById("newProjectBtn").addEventListener("click", newProject);
+document.getElementById("loadProjectBtn").addEventListener("click", loadProject);
+document.getElementById("deleteProjectBtn").addEventListener("click", deleteProject);
+document.getElementById("setupStoryBtn").addEventListener("click", setupStory);
+document.getElementById("editEpisodeBtn").addEventListener("click", editEpisode);
+
   </script>
 
   <script>
