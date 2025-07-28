@@ -103,3 +103,39 @@ export function saveEpisodeToCurrentProject(epNum, epData) {
   saveProject(currentProjectName, project);
   return true;
 }
+//
+// 🆕 สร้างโปรเจกต์ใหม่แบบสมบูรณ์
+//
+export function newProject() {
+  const name = prompt("📁 ตั้งชื่อโปรเจกต์ใหม่:");
+  if (!name) return;
+
+  if (projectExists(name)) {
+    alert("❗ โปรเจกต์นี้มีอยู่แล้ว");
+    return;
+  }
+
+  const newData = {
+    duration: "ยังไม่กำหนด",
+    totalEpisodes: 1,
+    episodes: {
+      0: {
+        title: "ตอนที่ 1",
+        timeframe: "",
+        strings: {
+          couple: "",
+          sub: "",
+          extra: "",
+          tone: "",
+          time: "",
+          setting: ""
+        }
+      }
+    }
+  };
+
+  saveProject(name, newData);
+  setCurrentProject(name);
+  alert(`✅ สร้างโปรเจกต์ "${name}" เรียบร้อยแล้ว`);
+}
+
