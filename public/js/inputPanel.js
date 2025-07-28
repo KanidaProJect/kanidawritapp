@@ -3,16 +3,20 @@ import { saveToMemory, getMemory } from './memoryStore.js';
 import { getCurrentProject } from './projectManager.js';
 
 const container = document.getElementById('input-panel-container');
-let currentLine = 'hero'; // เริ่มจากตัวเอก
-let episodeCount = 3; // เริ่มต้นตอนที่ 1–3
+if (!container) {
+  throw new Error('Container #input-panel-container not found.');
+}
+
+let currentLine = 'hero';
+let episodeCount = 3;
 
 export function renderInputPanel(lineName = 'hero', count = 3) {
   currentLine = lineName;
   episodeCount = count;
-  container.innerHTML = ''; // ล้างก่อน render ใหม่
+  container.innerHTML = '';
 
   const title = document.createElement('h3');
-  title.textContent = `🧵 กำลังเล่าเส้น: ${lineLabel(lineName)} (${count} ตอน)`;
+  title.textContent = `Line: ${lineLabel(lineName)} (${count} episodes)`;
   container.appendChild(title);
 
   for (let i = 1; i <= count; i++) {
@@ -30,39 +34,40 @@ function createEpisodeBox(episodeNum) {
   wrapper.style.marginBottom = '1.5rem';
 
   const label = document.createElement('label');
-  label.textContent = `ตอนที่ ${episodeNum}`;
+  label.textContent = `Episode ${episodeNum}`;
   label.style.fontWeight = 'bold';
 
   const textarea = document.createElement('textarea');
-  textarea.placeholder = '📝 เล่าเหตุการณ์ที่เกิดกับตัวเอกในตอนนี้...';
+  textarea.placeholder = 'Describe the main character’s event in this episode...';
   textarea.rows = 4;
   textarea.style.width = '100%';
 
-  // โหลดค่าที่เคยกรอกไว้
-  const old = getMemory(getCurrentProject(), currentLine, `ตอนที่ ${episodeNum}`);
+  const project = getCurrentProject();
+  if (!project) return wrapper;
+
+  const old = getMemory(project, currentLine, `ตอนที่ ${episodeNum}`);
   if (old) textarea.value = old;
 
   const saveBtn = document.createElement('button');
-  saveBtn.textContent = '💾 บันทึก';
+  saveBtn.textContent = '💾 Save';
   saveBtn.style.marginTop = '0.5rem';
   saveBtn.onclick = () => {
     const content = textarea.value.trim();
-    saveToMemory(getCurrentProject(), currentLine, `ตอนที่ ${episodeNum}`, content);
-    alert(`✅ บันทึกตอนที่ ${episodeNum} แล้วครับ`);
+    saveToMemory(project, currentLine, `ตอนที่ ${episodeNum}`, content);
+    alert(`Saved episode ${episodeNum}`);
+  };
+
+  const skipBtn = document.createElement('button');
+  skipBtn.textContent = '⏭️ Skip';
+  skipBtn.style.marginLeft = '0.5rem';
+  skipBtn.onclick = () => {
+    alert(`Skipped episode ${episodeNum}`);
   };
 
   wrapper.appendChild(label);
   wrapper.appendChild(textarea);
   wrapper.appendChild(saveBtn);
-  const skipBtn = document.createElement('button');
-  skipBtn.textContent = '⏭️ ข้ามตอนนี้';
-  skipBtn.style.marginLeft = '0.5rem';
-  skipBtn.onclick = () => {
-  alert(`ℹ️ ข้ามตอนที่ ${episodeNum} ไว้ก่อนครับ`);
-};
-
-wrapper.appendChild(skipBtn);
-
+  wrapper.appendChild(skipBtn);
 
   return wrapper;
 }
@@ -72,14 +77,14 @@ function createControlButtons() {
   row.style.marginTop = '1rem';
 
   const addBtn = document.createElement('button');
-  addBtn.textContent = '➕ เพิ่มตอน';
+  addBtn.textContent = '➕ Add Episode';
   addBtn.onclick = () => {
     episodeCount++;
     renderInputPanel(currentLine, episodeCount);
   };
 
   const removeBtn = document.createElement('button');
-  removeBtn.textContent = '➖ ลบตอนท้าย';
+  removeBtn.textContent = '➖ Remove Last';
   removeBtn.style.marginLeft = '1rem';
   removeBtn.onclick = () => {
     if (episodeCount > 1) {
@@ -95,12 +100,12 @@ function createControlButtons() {
 
 function lineLabel(key) {
   const map = {
-    'hero': 'ตัวเอก',
-    'villain': 'ตัวร้าย',
-    'support': 'ตัวรอง',
-    'subplot': 'ตัวเสริม',
-    'twist': 'เหตุการณ์พลิกผัน',
-    'setting': 'สถานที่หลัก'
+    'hero': 'Main Character',
+    'villain': 'Antagonist',
+    'support': 'Supporting',
+    'subplot': 'Subplot',
+    'twist': 'Plot Twist',
+    'setting': 'Setting'
   };
   return map[key] || key;
 }
