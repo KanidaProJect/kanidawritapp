@@ -1,16 +1,15 @@
-// inputPanel.js – ระบบกรอกข้อมูลทีละตอน ทีละเส้น
+// public/js/inputPanel.js
 import { saveToMemory, getMemory } from './memoryStore.js';
 import { getCurrentProject } from './projectManager.js';
 
 const container = document.getElementById('input-panel-container');
-let currentLine = 'hero'; // เริ่มจากเส้นตัวเอก
-let episodeCount = 3; // เริ่มต้น 3 ตอนแรก
+let currentLine = 'hero';
+let episodeCount = 3;
 
-// 🔁 ฟังก์ชันหลัก: สร้างกล่องกรอกข้อมูล
 export function renderInputPanel(lineName = 'hero', count = 3) {
   currentLine = lineName;
   episodeCount = count;
-  container.innerHTML = ''; // เคลียร์ก่อน
+  container.innerHTML = '';
 
   const title = document.createElement('h3');
   title.textContent = `🧵 กำลังเล่าเส้น: ${lineLabel(lineName)} (${count} ตอน)`;
@@ -25,7 +24,6 @@ export function renderInputPanel(lineName = 'hero', count = 3) {
   container.appendChild(controlRow);
 }
 
-// 🧱 สร้างช่องกรอก 1 ตอน
 function createEpisodeBox(episodeNum) {
   const wrapper = document.createElement('div');
   wrapper.className = 'episode-box';
@@ -40,7 +38,6 @@ function createEpisodeBox(episodeNum) {
   textarea.rows = 4;
   textarea.style.width = '100%';
 
-  // โหลดค่าที่เคยบันทึกไว้
   const old = getMemory(getCurrentProject(), currentLine, `ตอนที่ ${episodeNum}`);
   if (old) textarea.value = old;
 
@@ -68,7 +65,6 @@ function createEpisodeBox(episodeNum) {
   return wrapper;
 }
 
-// 🧩 ปุ่มควบคุม เพิ่ม/ลด ตอน
 function createControlButtons() {
   const row = document.createElement('div');
   row.style.marginTop = '1rem';
@@ -95,7 +91,6 @@ function createControlButtons() {
   return row;
 }
 
-// 🔤 แปลงรหัสเส้นให้เด็กอ่านง่าย
 function lineLabel(key) {
   const map = {
     'hero': 'ตัวเอก',
