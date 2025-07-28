@@ -54,6 +54,15 @@ function createEpisodeBox(episodeNum) {
   wrapper.appendChild(label);
   wrapper.appendChild(textarea);
   wrapper.appendChild(saveBtn);
+  const skipBtn = document.createElement('button');
+  skipBtn.textContent = '⏭️ ข้ามตอนนี้';
+  skipBtn.style.marginLeft = '0.5rem';
+  skipBtn.onclick = () => {
+  alert(`ℹ️ ข้ามตอนที่ ${episodeNum} ไว้ก่อนครับ`);
+};
+
+wrapper.appendChild(skipBtn);
+
 
   return wrapper;
 }
