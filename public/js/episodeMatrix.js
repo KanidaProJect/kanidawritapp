@@ -2,7 +2,7 @@
 
 import { loadProject, saveProject } from "./projectManager.js";
 
-// แสดงฟอร์มตอนที่เลือก
+// ฟังก์ชันหลักที่ render ฟอร์ม
 export function renderEpisodeForm(projectName, episodeIndex) {
   const project = loadProject(projectName);
   if (!project) {
@@ -21,31 +21,35 @@ export function renderEpisodeForm(projectName, episodeIndex) {
       <h3>${ep.title} <span style="font-weight: normal; color: #555;">(${ep.timeframe})</span></h3>
 
       <label>พระ-นาง:</label>
-      <textarea id="input-couple" placeholder="เช่น: พบกันโดยบังเอิญระหว่างเหตุชุลมุนในตลาดดอย...">${ep.strings.couple}</textarea>
+      <textarea id="input-couple">${ep.strings.couple}</textarea>
 
       <label>ตัวรอง:</label>
-      <textarea id="input-sub" placeholder="เช่น: เพื่อนพระเอกเข้ามาเตือนบางอย่าง / ตัวร้ายเริ่มปรากฏ">${ep.strings.sub}</textarea>
+      <textarea id="input-sub">${ep.strings.sub}</textarea>
 
       <label>ตัวเสริม:</label>
-      <textarea id="input-extra" placeholder="เช่น: เด็กเล็กในหมู่บ้านถามคำถามชวนฉุกคิด / ชาวบ้านคนเฒ่าพูดเตือนใจ">${ep.strings.extra}</textarea>
+      <textarea id="input-extra">${ep.strings.extra}</textarea>
 
       <label>บรรยากาศ:</label>
-      <textarea id="input-tone" placeholder="เช่น: เย็นยะเยือก ฝนตกเบา ๆ / อึดอัด แต่แฝงด้วยความหวัง">${ep.strings.tone}</textarea>
+      <textarea id="input-tone">${ep.strings.tone}</textarea>
 
       <label>เวลา (ในเรื่อง):</label>
-      <textarea id="input-time" placeholder="เช่น: เช้าวันถัดมา / สองวันก่อนถึงพิธี">${ep.strings.time}</textarea>
+      <textarea id="input-time">${ep.strings.time}</textarea>
 
       <label>สถานที่:</label>
-      <textarea id="input-setting" placeholder="เช่น: ข้างกองไฟกลางป่า / โรงเรียนบนดอย / หน้าศาลาเก่า">${ep.strings.setting}</textarea>
+      <textarea id="input-setting">${ep.strings.setting}</textarea>
 
       <button id="save-episode">💾 บันทึก</button>
     </div>
   `;
 
   const container = document.getElementById("episodeForm");
+  if (!container) {
+    alert("❌ ไม่พบ container ชื่อ episodeForm ในหน้า HTML");
+    return;
+  }
+
   container.innerHTML = formHTML;
 
-  // บันทึกข้อมูล
   document.getElementById("save-episode").onclick = () => {
     ep.strings.couple = document.getElementById("input-couple").value.trim();
     ep.strings.sub = document.getElementById("input-sub").value.trim();
@@ -57,4 +61,15 @@ export function renderEpisodeForm(projectName, episodeIndex) {
     saveProject(projectName, project);
     alert("💾 บันทึกตอนนี้เรียบร้อยแล้ว");
   };
+}
+
+// ✅ เพิ่ม editEpisode สำหรับเรียกแบบง่ายจาก index.html
+export function editEpisode() {
+  const projectName = prompt("📂 ชื่อโปรเจกต์ที่ต้องการแก้:");
+  const episodeIndex = parseInt(prompt("🔢 หมายเลขตอน (เริ่มจาก 0):"));
+  if (projectName && !isNaN(episodeIndex)) {
+    renderEpisodeForm(projectName.trim(), episodeIndex);
+  } else {
+    alert("❌ ต้องกรอกชื่อและหมายเลขตอนให้ถูกต้อง");
+  }
 }
