@@ -2,6 +2,9 @@ const STORAGE_KEY = "kanida_projects";
 
 // 🧠 โปรเจกต์ที่กำลังใช้งาน
 let currentProjectName = null;
+export function getCurrentProject() {
+  return currentProjectName;
+}
 
 //
 // 📦 โหลดโปรเจกต์ทั้งหมด
