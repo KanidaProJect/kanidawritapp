@@ -94,11 +94,11 @@
   <div id="episodeFormContainer" style="margin: 2rem 0;"></div>
   <div class="container">
     <div class="project-buttons">
-      <button id="newProjectBtn">➕ สร้างโปรเจกต์ใหม่</button>
-      <button id="loadProjectBtn">📂 เปิดโปรเจกต์เดิม</button>
-      <button id="deleteProjBtn">🗑️ ลบโปรเจกต์</button>
-      <button id="setupStoryBtn">📚 สร้างตอน/ระยะเวลา</button>
-      <button id="editEpisodeBtn">✏️ แก้ไขตอน</button>
+      <button id="btnNewProject">➕ สร้างโปรเจกต์ใหม่</button>
+      <button id="btnLoadProject">📂 เปิดโปรเจกต์เดิม</button>
+      <button id="btnDeleteProject">🗑️ ลบโปรเจกต์</button>
+      <button id="btnSetupStory">📚 สร้างตอน/ระยะเวลา</button>
+      <button id="btnEditEpisode">✏️ แก้ไขตอน</button>
     </div>
 
     <div class="chat-box" id="chatBox">
@@ -114,15 +114,15 @@
   <footer>© 2025 Kanida Studio – ระบบไม่คิดแทนผู้เขียน</footer>
 
  <script type="module">
-  import { newProject, loadProject, deleteProject } from './js/jsprojectManager.js';
-  import { setupStory } from '/js/jsstorySetup.js';
-  import { editEpisode } from '/js/jsepisodeMatrix.js';
+  import { newProject, loadProject, deleteProject } from './js/projectManager.js';
+  import { setupStory } from '/js/storySetup.js';
+  import { editEpisode } from '/js/episodeMatrix.js';
 
-  document.getElementById("newProjectBtn").addEventListener("click", newProject);
-  document.getElementById("loadProjectBtn").addEventListener("click", loadProject);
-  document.getElementById("deleteProjectBtn").addEventListener("click", deleteProject);
-  document.getElementById("setupStoryBtn").addEventListener("click", setupStory);
-  document.getElementById("editEpisodeBtn").addEventListener("click", editEpisode);
+  document.getElementById("btnNewProject").addEventListener("click", newProject);
+  document.getElementById("btnLoadProject").addEventListener("click", loadProject);
+  document.getElementById("btnDeleteProject").addEventListener("click", deleteProject);
+  document.getElementById("btnSetupStory").addEventListener("click", setupStory);
+  document.getElementById("btnEditEpisode").addEventListener("click", editEpisode);
   </script>
 
   <script>
