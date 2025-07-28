@@ -118,6 +118,9 @@
   import { newProject, loadProject, deleteProject } from './js/projectManager.js';
   import { setupStory } from './js/storySetup.js';
   import { editEpisode } from './js/episodeMatrix.js';
+ <script type="module">
+  import { renderInputPanel } from './js/inputPanel.js';
+  renderInputPanel('hero', 3); // เริ่มจากเส้นตัวเอก ตอนที่ 1–3
 
   document.getElementById("btnNewProject").addEventListener("click", newProject);
   document.getElementById("btnLoadProject").addEventListener("click", loadProject);
