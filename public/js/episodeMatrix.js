@@ -1,9 +1,34 @@
 // js/episodeMatrix.js
+import { loadProject, saveProject, getCurrentProjectName } from "./projectManager.js";
 
-import { loadProject, saveProject } from "./projectManager.js";
+// ✅ เพิ่ม export function editEpisode เพื่อเรียกใช้จาก index.html
+export function editEpisode() {
+  const projectName = getCurrentProjectName();
+  if (!projectName) {
+    alert("❗ กรุณาเลือกโปรเจกต์ก่อน");
+    return;
+  }
+  const project = loadProject(projectName);
+  if (!project) {
+    alert("❗ ไม่พบโปรเจกต์ที่เลือก");
+    return;
+  }
+  const episodeCount = Object.keys(project.episodes).length;
+  if (episodeCount === 0) {
+    alert("❗ โปรเจกต์นี้ยังไม่มีตอน");
+    return;
+  }
+
+  const episodeIndex = parseInt(prompt(`🔢 หมายเลขตอนที่ต้องการแก้ไข (มีทั้งหมด ${episodeCount} ตอน):`));
+  if (!isNaN(episodeIndex) && episodeIndex >= 0 && episodeIndex < episodeCount) {
+    renderEpisodeForm(projectName, episodeIndex);
+  } else {
+    alert("❌ ต้องกรอกหมายเลขตอนให้ถูกต้อง");
+  }
+}
 
 // ฟังก์ชันหลักที่ render ฟอร์ม
-export function renderEpisodeForm(projectName, episodeIndex) {
+function renderEpisodeForm(projectName, episodeIndex) {
   const project = loadProject(projectName);
   if (!project) {
     alert("ไม่พบโปรเจกต์");
@@ -20,7 +45,7 @@ export function renderEpisodeForm(projectName, episodeIndex) {
     <div class="form-box">
       <h3>${ep.title} <span style="font-weight: normal; color: #555;">(${ep.timeframe})</span></h3>
 
-      <label>พระ-นาง:</label>
+      <label>คู่พระ-นาง:</label>
       <textarea id="input-couple">${ep.strings.couple}</textarea>
 
       <label>ตัวรอง:</label>
@@ -42,9 +67,9 @@ export function renderEpisodeForm(projectName, episodeIndex) {
     </div>
   `;
 
-  const container = document.getElementById("episodeForm");
+  const container = document.getElementById("episodeFormContainer"); // แก้ไข ID ตรงนี้
   if (!container) {
-    alert("❌ ไม่พบ container ชื่อ episodeForm ในหน้า HTML");
+    alert("❌ ไม่พบ container ชื่อ episodeFormContainer ในหน้า HTML");
     return;
   }
 
@@ -61,15 +86,4 @@ export function renderEpisodeForm(projectName, episodeIndex) {
     saveProject(projectName, project);
     alert("💾 บันทึกตอนนี้เรียบร้อยแล้ว");
   };
-}
-
-// ✅ เพิ่ม editEpisode สำหรับเรียกแบบง่ายจาก index.html
-export function editEpisode() {
-  const projectName = prompt("📂 ชื่อโปรเจกต์ที่ต้องการแก้:");
-  const episodeIndex = parseInt(prompt("🔢 หมายเลขตอน (เริ่มจาก 0):"));
-  if (projectName && !isNaN(episodeIndex)) {
-    renderEpisodeForm(projectName.trim(), episodeIndex);
-  } else {
-    alert("❌ ต้องกรอกชื่อและหมายเลขตอนให้ถูกต้อง");
-  }
 }
