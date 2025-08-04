@@ -1,12 +1,17 @@
 // public/js/inputPanel.js
-import { saveToMemory, getMemory } from './memoryStore.js';
-import { getCurrentProject } from './projectManager.js';
+import { saveProject, getCurrentProjectName, getCurrentProjectData } from './projectManager.js';
 
 const container = document.getElementById('input-panel-container');
 let currentLine = 'hero';
 let episodeCount = 3;
 
 export function renderInputPanel(lineName = 'hero', count = 3) {
+  const currentProjectName = getCurrentProjectName();
+  if (!currentProjectName) {
+    container.innerHTML = '<p>⚠️ กรุณาสร้างหรือเปิดโปรเจกต์ก่อนเริ่มเขียนพล็อต</p>';
+    return;
+  }
+
   currentLine = lineName;
   episodeCount = count;
   container.innerHTML = '';
@@ -38,15 +43,16 @@ function createEpisodeBox(episodeNum) {
   textarea.rows = 4;
   textarea.style.width = '100%';
 
-  const old = getMemory(getCurrentProject(), currentLine, `ตอนที่ ${episodeNum}`);
-  if (old) textarea.value = old;
+  const projectData = getCurrentProjectData();
+  const oldContent = projectData?.episodes?.[episodeNum]?.strings?.hero || '';
+  if (oldContent) textarea.value = oldContent;
 
   const saveBtn = document.createElement('button');
   saveBtn.textContent = '💾 บันทึก';
   saveBtn.style.marginTop = '0.5rem';
   saveBtn.onclick = () => {
     const content = textarea.value.trim();
-    saveToMemory(getCurrentProject(), currentLine, `ตอนที่ ${episodeNum}`, content);
+    saveToProject(episodeNum, content);
     alert(`✅ บันทึกตอนที่ ${episodeNum} แล้วครับ`);
   };
 
@@ -89,6 +95,36 @@ function createControlButtons() {
   row.appendChild(addBtn);
   row.appendChild(removeBtn);
   return row;
+}
+
+function saveToProject(episodeNum, content) {
+  const currentProjectName = getCurrentProjectName();
+  const projectData = getCurrentProjectData();
+  
+  if (projectData && projectData.episodes) {
+    if (!projectData.episodes[episodeNum]) {
+      projectData.episodes[episodeNum] = {
+        title: `ตอนที่ ${episodeNum}`,
+        timeframe: "",
+        strings: {
+          couple: "",
+          sub: "",
+          extra: "",
+          tone: "",
+          time: "",
+          setting: ""
+        }
+      };
+    }
+    
+    // บันทึกข้อมูลตามเส้นเรื่องที่เลือก (ในที่นี้คือ 'hero')
+    // ถ้าต้องการบันทึกเส้นอื่น ต้องปรับโค้ดให้รองรับ
+    projectData.episodes[episodeNum].strings.hero = content;
+
+    saveProject(currentProjectName, projectData);
+    return true;
+  }
+  return false;
 }
 
 function lineLabel(key) {
