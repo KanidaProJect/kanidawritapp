@@ -12,21 +12,26 @@ export function renderInputPanel(lineName = 'hero', count = 3) {
     return;
   }
 
+  const projectData = getCurrentProjectData();
+  if (projectData && projectData.totalEpisodes) {
+    episodeCount = projectData.totalEpisodes;
+  }
+
   currentLine = lineName;
-  episodeCount = count;
   container.innerHTML = '';
 
   const title = document.createElement('h3');
-  title.textContent = `🧵 กำลังเล่าเส้น: ${lineLabel(lineName)} (${count} ตอน)`;
+  title.textContent = `🧵 กำลังเล่าเส้น: ${lineLabel(lineName)} (${episodeCount} ตอน)`;
   container.appendChild(title);
 
-  for (let i = 1; i <= count; i++) {
+  for (let i = 0; i < episodeCount; i++) { // แก้ไข loop ให้เริ่มจาก 0
     const episodeBox = createEpisodeBox(i);
     container.appendChild(episodeBox);
   }
 
-  const controlRow = createControlButtons();
-  container.appendChild(controlRow);
+  // ลบปุ่มเพิ่ม/ลบตอนออก เพราะตอนนี้จำนวนตอนถูกกำหนดจาก storySetup
+  // const controlRow = createControlButtons();
+  // container.appendChild(controlRow);
 }
 
 function createEpisodeBox(episodeNum) {
@@ -35,7 +40,7 @@ function createEpisodeBox(episodeNum) {
   wrapper.style.marginBottom = '1.5rem';
 
   const label = document.createElement('label');
-  label.textContent = `ตอนที่ ${episodeNum}`;
+  label.textContent = `ตอนที่ ${episodeNum + 1}`; // แสดงผลเป็น ตอนที่ 1, 2, 3...
   label.style.fontWeight = 'bold';
 
   const textarea = document.createElement('textarea');
@@ -44,7 +49,7 @@ function createEpisodeBox(episodeNum) {
   textarea.style.width = '100%';
 
   const projectData = getCurrentProjectData();
-  const oldContent = projectData?.episodes?.[episodeNum]?.strings?.hero || '';
+  const oldContent = projectData?.episodes?.[episodeNum]?.strings?.[currentLine] || ''; // แก้ไขการเข้าถึงข้อมูล
   if (oldContent) textarea.value = oldContent;
 
   const saveBtn = document.createElement('button');
@@ -53,14 +58,14 @@ function createEpisodeBox(episodeNum) {
   saveBtn.onclick = () => {
     const content = textarea.value.trim();
     saveToProject(episodeNum, content);
-    alert(`✅ บันทึกตอนที่ ${episodeNum} แล้วครับ`);
+    alert(`✅ บันทึกตอนที่ ${episodeNum + 1} แล้วครับ`);
   };
 
   const skipBtn = document.createElement('button');
   skipBtn.textContent = '⏭️ ข้ามตอนนี้';
   skipBtn.style.marginLeft = '0.5rem';
   skipBtn.onclick = () => {
-    alert(`ℹ️ ข้ามตอนที่ ${episodeNum} ไว้ก่อนครับ`);
+    alert(`ℹ️ ข้ามตอนที่ ${episodeNum + 1} ไว้ก่อนครับ`);
   };
 
   wrapper.appendChild(label);
@@ -71,40 +76,15 @@ function createEpisodeBox(episodeNum) {
   return wrapper;
 }
 
-function createControlButtons() {
-  const row = document.createElement('div');
-  row.style.marginTop = '1rem';
-
-  const addBtn = document.createElement('button');
-  addBtn.textContent = '➕ เพิ่มตอน';
-  addBtn.onclick = () => {
-    episodeCount++;
-    renderInputPanel(currentLine, episodeCount);
-  };
-
-  const removeBtn = document.createElement('button');
-  removeBtn.textContent = '➖ ลบตอนท้าย';
-  removeBtn.style.marginLeft = '1rem';
-  removeBtn.onclick = () => {
-    if (episodeCount > 1) {
-      episodeCount--;
-      renderInputPanel(currentLine, episodeCount);
-    }
-  };
-
-  row.appendChild(addBtn);
-  row.appendChild(removeBtn);
-  return row;
-}
-
 function saveToProject(episodeNum, content) {
   const currentProjectName = getCurrentProjectName();
   const projectData = getCurrentProjectData();
   
   if (projectData && projectData.episodes) {
     if (!projectData.episodes[episodeNum]) {
+      // สร้างตอนใหม่ถ้ายังไม่มี
       projectData.episodes[episodeNum] = {
-        title: `ตอนที่ ${episodeNum}`,
+        title: `ตอนที่ ${episodeNum + 1}`,
         timeframe: "",
         strings: {
           couple: "",
@@ -117,9 +97,8 @@ function saveToProject(episodeNum, content) {
       };
     }
     
-    // บันทึกข้อมูลตามเส้นเรื่องที่เลือก (ในที่นี้คือ 'hero')
-    // ถ้าต้องการบันทึกเส้นอื่น ต้องปรับโค้ดให้รองรับ
-    projectData.episodes[episodeNum].strings.hero = content;
+    // บันทึกข้อมูลตามเส้นเรื่องที่เลือก
+    projectData.episodes[episodeNum].strings[currentLine] = content;
 
     saveProject(currentProjectName, projectData);
     return true;
