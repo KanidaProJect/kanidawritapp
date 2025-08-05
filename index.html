@@ -86,29 +86,6 @@
       color: #888;
       padding-bottom: 1rem;
     }
-    .form-box {
-      background: #e9ecef;
-      border: 1px solid #dee2e6;
-      border-radius: 8px;
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-    }
-    .form-box label {
-      display: block;
-      font-weight: bold;
-      margin-top: 1rem;
-    }
-    .form-box textarea {
-      width: 100%;
-      min-height: 80px;
-      padding: 0.75rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      margin-top: 0.5rem;
-    }
-    .form-box button {
-      margin-top: 1.5rem;
-    }
   </style>
 </head>
 <body>
@@ -116,7 +93,7 @@
     <h1>Kanida Plot Studio</h1>
     <p>ระบบช่วยจัดโครงพล็อตแบบ 6 เส้น – ไม่มโน ไม่เร่ง</p>
   </header>
-  <div id="episodeFormContainer" style="margin: 2rem 0;"></div>
+  <div id="episodeFormContainer" style="margin: 2rem 0;"></div>
   <div class="container">
     <div class="project-buttons">
       <button id="btnNewProject">➕ สร้างโปรเจกต์ใหม่</button>
@@ -147,7 +124,7 @@
   renderInputPanel('hero', 3);
 
   document.getElementById("btnNewProject").addEventListener("click", newProject);
-  document.getElementById("btnLoadProject").addEventListener("click", loadProjectUI);
+  document.getElementById("btnLoadProject").addEventListener("click", loadProjectUI); // แก้ไขชื่อฟังก์ชัน
   document.getElementById("btnDeleteProject").addEventListener("click", deleteProject);
   document.getElementById("btnSetupStory").addEventListener("click", setupStory);
   document.getElementById("btnEditEpisode").addEventListener("click", editEpisode);
