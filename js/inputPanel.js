@@ -44,7 +44,7 @@ function createEpisodeBox(episodeNum) {
   label.style.fontWeight = 'bold';
 
   const textarea = document.createElement('textarea');
-  textarea.placeholder = '📝 เล่าเหตุการณ์ที่เกิดกับตัวเอกในตอนนี้...';
+  textarea.placeholder = '📝 เล่าเหตุการณ์ที่คุณต้องการใส่ในพล็อตที่นี่...';
   textarea.rows = 4;
   textarea.style.width = '100%';
 
