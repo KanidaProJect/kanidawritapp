@@ -1,7 +1,6 @@
 // js/episodeMatrix.js
 import { loadProject, saveProject, getCurrentProjectName } from "./projectManager.js";
 
-// ✅ เพิ่ม export function editEpisode เพื่อเรียกใช้จาก index.html
 export function editEpisode() {
   const projectName = getCurrentProjectName();
   if (!projectName) {
@@ -27,7 +26,6 @@ export function editEpisode() {
   }
 }
 
-// ฟังก์ชันหลักที่ render ฟอร์ม
 function renderEpisodeForm(projectName, episodeIndex) {
   const project = loadProject(projectName);
   if (!project) {
@@ -67,7 +65,7 @@ function renderEpisodeForm(projectName, episodeIndex) {
     </div>
   `;
 
-  const container = document.getElementById("episodeFormContainer"); // แก้ไข ID ตรงนี้
+  const container = document.getElementById("episodeFormContainer");
   if (!container) {
     alert("❌ ไม่พบ container ชื่อ episodeFormContainer ในหน้า HTML");
     return;
