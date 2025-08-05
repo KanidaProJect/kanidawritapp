@@ -26,7 +26,6 @@ class Plugin(PluginInterface):
         return {"scenes": scenes}
 
     def load_template(self, template_name):
-        # เทมเพลตแบบจำลองสำหรับ 'slowburn_3act'
         if template_name == "slowburn_3act":
             return [
                 {"name": "บทนำ", "goal": "แนะนำตัวเอกและโลกของเรื่อง", "mood": "อบอุ่น"},
