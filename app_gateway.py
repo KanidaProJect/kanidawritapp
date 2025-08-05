@@ -4,7 +4,7 @@ from flask import Flask, request, jsonify
 import sys
 import os
 
-# ✅ เพิ่ม path ของโฟลเดอร์ modules เพื่อให้ Python หาโมดูลเจอ
+# ✅ เพิ่ม path ของโฟลเดอร์ modules
 sys.path.append(os.path.join(os.path.dirname(__file__), 'modules'))
 
 from modules.module_useragent.plugin import Plugin as UserAgent
