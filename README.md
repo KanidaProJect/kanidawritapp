@@ -15,9 +15,9 @@
 ### 🔹 Deploy แบบ Static (เช่น Render)
 
 1. สร้าง Static Site บน [Render](https://render.com/)
-2. root directory = `/public`
+2. root directory = `/`
 3. build command = _none_
-4. publish directory = `/public`
+4. publish directory = `.`
 
 ### 🔹 ใช้งานแบบ Local / Offline
 
