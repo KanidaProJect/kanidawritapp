@@ -1,155 +1,167 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kanida Plot Studio – ช่วยวางพล็อต</title>
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
-  <link rel="manifest" href="manifest.json" />
-  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;700&display=swap" rel="stylesheet" />
-  <style>
-    body {
-      font-family: 'Prompt', sans-serif;
-      background: #fcfcfc;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background: #354f52;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-    }
-    .container {
-      display: flex;
-      flex-direction: column;
-      max-width: 900px;
-      margin: auto;
-      padding: 1.5rem;
-      gap: 1.5rem;
-    }
-    .chat-box {
-      background: #ffffff;
-      border: 2px dashed #ccc;
-      border-radius: 12px;
-      padding: 1.5rem;
-      height: 400px;
-      overflow-y: auto;
-    }
-    .chat-entry {
-      margin: 0.75rem 0;
-      padding: 0.75rem 1rem;
-      border-radius: 10px;
-      max-width: 80%;
-    }
-    .chat-entry.user {
-      background: #d8f3dc;
-      align-self: flex-end;
-      margin-left: auto;
-      color: #1b4332;
-    }
-    .chat-entry.system {
-      background: #edf2f4;
-      align-self: flex-start;
-      margin-right: auto;
-      color: #2b2d42;
-    }
-    .input-row {
-      display: flex;
-      gap: 0.5rem;
-    }
-    input[type="text"] {
-      flex: 1;
-      padding: 0.75rem;
-      border-radius: 6px;
-      border: 1px solid #999;
-    }
-    button {
-      padding: 0.75rem 1rem;
-      border: none;
-      border-radius: 6px;
-      background: #588157;
-      color: white;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #3a5a40;
-    }
-    .project-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-    }
-    footer {
-      text-align: center;
-      font-size: 0.85rem;
-      color: #888;
-      padding-bottom: 1rem;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kanida Plot Studio – ช่วยวางพล็อต</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="manifest" href="manifest.json" />
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Prompt', sans-serif;
+      background: #fcfcfc;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #354f52;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      max-width: 900px;
+      margin: auto;
+      padding: 1.5rem;
+      gap: 1.5rem;
+    }
+    .chat-box {
+      background: #ffffff;
+      border: 2px dashed #ccc;
+      border-radius: 12px;
+      padding: 1.5rem;
+      height: 400px;
+      overflow-y: auto;
+    }
+    .chat-entry {
+      margin: 0.75rem 0;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      max-width: 80%;
+    }
+    .chat-entry.user {
+      background: #d8f3dc;
+      align-self: flex-end;
+      margin-left: auto;
+      color: #1b4332;
+    }
+    .chat-entry.system {
+      background: #edf2f4;
+      align-self: flex-start;
+      margin-right: auto;
+      color: #2b2d42;
+    }
+    .input-row {
+      display: flex;
+      gap: 0.5rem;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 0.75rem;
+      border-radius: 6px;
+      border: 1px solid #999;
+    }
+    button {
+      padding: 0.75rem 1rem;
+      border: none;
+      border-radius: 6px;
+      background: #588157;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #3a5a40;
+    }
+    .project-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #888;
+      padding-bottom: 1rem;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Kanida Plot Studio</h1>
-    <p>ระบบช่วยจัดโครงพล็อตแบบ 6 เส้น – ไม่มโน ไม่เร่ง</p>
-  </header>
+  <header>
+    <h1>Kanida Plot Studio</h1>
+    <p>ระบบช่วยจัดโครงพล็อตแบบ 6 เส้น – ไม่มโน ไม่เร่ง</p>
+  </header>
   <div id="episodeFormContainer" style="margin: 2rem 0;"></div>
-  <div class="container">
-    <div class="project-buttons">
-      <button id="btnNewProject">➕ สร้างโปรเจกต์ใหม่</button>
-      <button id="btnLoadProject">📂 เปิดโปรเจกต์เดิม</button>
-      <button id="btnDeleteProject">🗑️ ลบโปรเจกต์</button>
-      <button id="btnSetupStory">📚 สร้างตอน/ระยะเวลา</button>
-      <button id="btnEditEpisode">✏️ แก้ไขตอน</button>
-    </div>
-    <div id="input-panel-container"></div>
-    <div class="chat-box" id="chatBox">
-      <div class="chat-entry system">👋 ยินดีต้อนรับ! กรุณาเริ่มเล่าช่วงต้นเรื่องของตัวเอกได้เลยครับ</div>
-    </div>
-    <div class="input-row">
-      <input type="text" id="userInput" placeholder="เล่าเหตุการณ์ที่คุณต้องการใส่ในพล็อตที่นี่..." />
-      <button onclick="sendMessage()">ส่ง</button>
-    </div>
-  </div>
+  <div class="container">
+    <div class="project-buttons">
+      <button id="btnNewProject">➕ สร้างโปรเจกต์ใหม่</button>
+      <button id="btnLoadProject">📂 เปิดโปรเจกต์เดิม</button>
+      <button id="btnDeleteProject">🗑️ ลบโปรเจกต์</button>
+      <button id="btnSetupStory">📚 สร้างตอน/ระยะเวลา</button>
+      <button id="btnEditEpisode">✏️ แก้ไขตอน</button>
+    </div>
+    <div id="input-panel-container"></div>
+    <div class="chat-box" id="chatBox">
+      <div class="chat-entry system">👋 ยินดีต้อนรับ! กรุณาเริ่มเล่าช่วงต้นเรื่องของตัวเอกได้เลยครับ</div>
+    </div>
+    <div class="input-row">
+      <input type="text" id="userInput" placeholder="เล่าเหตุการณ์ที่คุณต้องการใส่ในพล็อตที่นี่..." />
+      <button onclick="sendMessage()">ส่ง</button>
+    </div>
+  </div>
 
-  <footer>© 2025 Kanida Studio – ระบบไม่คิดแทนผู้เขียน</footer>
-  
- <script type="module">
-  import { newProject, loadProjectUI, deleteProject } from './js/projectManager.js';
-  import { setupStory } from './js/storySetup.js';
-  import { editEpisode } from './js/episodeMatrix.js';
-  import { renderInputPanel } from './js/inputPanel.js';
+  <footer>© 2025 Kanida Studio – ระบบไม่คิดแทนผู้เขียน</footer>
+  
+ <script type="module">
+  import { newProject, loadProjectUI, deleteProject } from './js/projectManager.js';
+  import { setupStory } from './js/storySetup.js';
+  import { editEpisode } from './js/episodeMatrix.js';
+  import { renderInputPanel } from './js/inputPanel.js';
 
-  renderInputPanel('hero', 3);
+  // Initial render
+  renderInputPanel('hero', 3);
 
-  document.getElementById("btnNewProject").addEventListener("click", newProject);
-  document.getElementById("btnLoadProject").addEventListener("click", loadProjectUI);
-  document.getElementById("btnDeleteProject").addEventListener("click", deleteProject);
-  document.getElementById("btnSetupStory").addEventListener("click", setupStory);
-  document.getElementById("btnEditEpisode").addEventListener("click", editEpisode);
+  document.getElementById("btnNewProject").addEventListener("click", newProject);
+  document.getElementById("btnLoadProject").addEventListener("click", loadProjectUI);
+  document.getElementById("btnDeleteProject").addEventListener("click", deleteProject);
+  document.getElementById("btnSetupStory").addEventListener("click", setupStory);
+  document.getElementById("btnEditEpisode").addEventListener("click", editEpisode);
 </script>
 
-  <script>
+  <script>
     const chatBox = document.getElementById("chatBox");
 
-    window.sendMessage = function () {
-      const input = document.getElementById("userInput");
-      const text = input.value.trim();
-      if (!text) return;
+    window.sendMessage = async function () {
+        const input = document.getElementById("userInput");
+        const text = input.value.trim();
+        if (!text) return;
 
-      const userEntry = document.createElement("div");
-      userEntry.className = "chat-entry user";
-      userEntry.textContent = text;
-      chatBox.appendChild(userEntry);
+        const userEntry = document.createElement("div");
+        userEntry.className = "chat-entry user";
+        userEntry.textContent = text;
+        chatBox.appendChild(userEntry);
 
-      const reply = document.createElement("div");
-      reply.className = "chat-entry system";
-      reply.textContent = `📌 ระบบรับข้อความเรียบร้อย: "${text}"`;
-      chatBox.appendChild(reply);
+        // ส่งคำสั่งไปยัง Back-end (API Gateway)
+        const response = await fetch('/api/process', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message: text, memory: {} }), // ส่งข้อความและ memory
+        });
 
-      input.value = "";
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
-  </script>
+        const result = await response.json();
+
+        const reply = document.createElement("div");
+        reply.className = "chat-entry system";
+        reply.textContent = result.reply || "เกิดข้อผิดพลาดในการประมวลผล"; // แสดงคำตอบจาก Back-end
+        chatBox.appendChild(reply);
+
+        input.value = "";
+        chatBox.scrollTop = chatBox.scrollHeight;
+    };
+  </script>
 </body>
 </html>
