@@ -7,10 +7,10 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'modules'))
 
 from modules.module_useragent.plugin import Plugin as UserAgent
 
-app = Flask(__name__)
+# ✅ กำหนด BASE_DIR ให้ใช้ได้
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# ✅ เพิ่ม BASE_DIR สำหรับใช้กับ send_file อย่างถูกต้อง
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+app = Flask(__name__)
 
 # ✅ API หลัก
 @app.route('/api/process', methods=['POST'])
@@ -31,17 +31,22 @@ def index():
 # ✅ favicon.ico
 @app.route('/favicon.ico')
 def favicon():
-    return send_file('favicon.ico')
+    return send_file(os.path.join(BASE_DIR, 'public', 'favicon.ico'))
+
+# ✅ manifest.json
+@app.route('/manifest.json')
+def manifest():
+    return send_from_directory(os.path.join(BASE_DIR, 'public'), 'manifest.json')
 
 # ✅ override static route: JS
 @app.route('/js/<path:filename>')
 def serve_js(filename):
-    return send_from_directory('js', filename)
+    return send_from_directory(os.path.join(BASE_DIR, 'js'), filename)
 
 # ✅ override static route: icons
 @app.route('/icons/<path:filename>')
 def serve_icons(filename):
-    return send_from_directory('icons', filename)
+    return send_from_directory(os.path.join(BASE_DIR, 'icons'), filename)
 
 # ✅ Run app บน Render (Web Service)
 if __name__ == '__main__':
