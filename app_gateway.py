@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, send_from_directory
 import sys
 import os
 
@@ -9,6 +9,7 @@ from modules.module_useragent.plugin import Plugin as UserAgent
 
 app = Flask(__name__)
 
+# ✅ API หลัก
 @app.route('/api/process', methods=['POST'])
 def process_request():
     try:
@@ -19,16 +20,27 @@ def process_request():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# ✅ เพิ่ม route / และ favicon.ico ตามที่ตกลงกัน
+# ✅ หน้าแรก index.html
 @app.route('/')
 def index():
     return send_file('index.html')
 
+# ✅ favicon.ico
 @app.route('/favicon.ico')
 def favicon():
     return send_file('favicon.ico')
 
-# ✅ แก้เฉพาะส่วนนี้: bind host และ port สำหรับ Render
+# ✅ override static route: JS
+@app.route('/js/<path:filename>')
+def serve_js(filename):
+    return send_from_directory('js', filename)
+
+# ✅ override static route: icons
+@app.route('/icons/<path:filename>')
+def serve_icons(filename):
+    return send_from_directory('icons', filename)
+
+# ✅ Run app บน Render (Web Service)
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port, debug=True)
