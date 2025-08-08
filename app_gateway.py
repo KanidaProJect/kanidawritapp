@@ -23,7 +23,7 @@ def process_request():
 # ✅ หน้าแรก index.html
 @app.route('/')
 def index():
-    return send_file('index.html')
+    return send_file(os.path.join(BASE_DIR, 'public', 'index.html'))
 
 # ✅ favicon.ico
 @app.route('/favicon.ico')
