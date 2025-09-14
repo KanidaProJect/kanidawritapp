@@ -1,0 +1,14 @@
+{
+  "endpoints": {
+    "/api/process": {
+      "method": "POST",
+      "request": {
+        "input_data": "object"
+      },
+      "response": {
+        "result": "object",
+        "error": "string?"
+      }
+    }
+  }
+}
