@@ -46,7 +46,7 @@ def serve_js(filename):
 # ✅ override static route: icons
 @app.route('/icons/<path:filename>')
 def serve_icons(filename):
-    return send_from_directory(os.path.join(BASE_DIR, 'icons'), filename)
+    return send_from_directory(os.path.join(BASE_DIR, 'public', 'icons'), filename)
 
 # ✅ Run app บน Render (Web Service)
 if __name__ == '__main__':
